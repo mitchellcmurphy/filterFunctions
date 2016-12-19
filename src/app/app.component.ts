@@ -34,12 +34,6 @@ import { AppState } from './app.service';
           Detail
         </a>
       </span>
-      |
-      <span>
-        <a [routerLink]=" ['./about'] ">
-          About
-        </a>
-      </span>
     </nav>
 
     <main>
