@@ -1,0 +1,21 @@
+<div class="card-container">
+  <div class='title'>
+    Let's Play FILTER THOSE EMAILS!
+  </div>
+  <div class="email-generator-container">
+    Enter number of emails to generate: <input type="text" [(ngModel)]="emailNumber"><br>
+    How random do you want it (in %)?: <input type="text" [(ngModel)]="randomPercentage"><br>
+    <button id='email-generator-button' (click)=generateEmails()>Generate Emails</button>
+  </div>
+  <div class="initial-info">
+    <span>Emails to sort:{{emails.length}}</span>
+  </div>
+  <div class="email-filter-container">
+    <button class='email-filter-button' (click)=filterEmailsArray()>Filter Emails Array</button><br>
+    <span>Sorted emails (Array):{{filteredEmails.length}}</span><br>
+    <button class='email-filter-button' (click)=filterEmailsMap()>Filter Emails Map</button>
+    <span>Sorted emails (Map):{{filteredEmailsMap.size}}</span><br>
+    <span>Total time this whole thing took: {{ticks}}</span>
+  </div>
+  <button class='clear-button' (click)=clearAll()>Clear all this junk</button>
+</div>
