@@ -30,31 +30,61 @@ describe('Home', () => {
     ]
   }));
 
-  // it('should have default data', inject([ HomeComponent ], (home: HomeComponent) => {
-  //   expect(home.localState).toEqual({ value: '' });
-  // }));
-
-  // it('should have a title', inject([ HomeComponent ], (home: HomeComponent) => {
-  //   expect(!!home.title).toEqual(true);
-  // }));
-
-  // it('should log ngOnInit', inject([ HomeComponent ], (home: HomeComponent) => {
-  //   spyOn(console, 'log');
-  //   expect(console.log).not.toHaveBeenCalled();
-
-  //   home.ngOnInit();
-  //   expect(console.log).toHaveBeenCalled();
-  // }));
-
-  it('should have default data', inject([ HomeComponent ], (home: HomeComponent) => {
+  beforeEach(inject([ HomeComponent ], (home: HomeComponent) => {
     home.ngOnInit();
-    expect(home.emails).toEqual([]);
-    expect(home.filteredEmails).toEqual([]);
   }));
 
-  // it('should generate random emails', inject([ HomeComponent ], (home: HomeComponent) => {
-  //   expect(home.emails).toEqual([]);
-  //   expect(home.filteredEmails).toEqual([]);
-  // }));
+  it('should have default data', inject([ HomeComponent ], (home: HomeComponent) => {
+    expect(home.emails).toEqual([]);
+    expect(home.filteredEmails).toEqual([]);
+    expect(home.filteredEmailsMap).toEqual(new Map());  
+  }));
+
+  it('should generate random emails', inject([ HomeComponent ], (home: HomeComponent) => {
+    home.randomPercentage = 50;
+    home.emailNumber = 10;
+    home.generateEmails();
+    expect(home.emails).not.toBeNull();
+    expect(home.emails.length).toEqual(10);
+    expect(home.expectedCount).toEqual(10 * 0.5)
+  }));
+
+  it('should shuffle emails', inject([ HomeComponent ], (home: HomeComponent) => {
+    let emails = ["1234@email.com","1234@email.com","5678@email.com","5678@email.com","9876@email.com"];
+    home.emails = emails.slice();
+    home.shuffleEmails();
+    expect(home.emails).not.toEqual(emails);
+  }));
+
+  it('should filter emails into a map with proper size', inject([ HomeComponent ], (home: HomeComponent) => {
+    home.randomPercentage = 50;
+    home.emailNumber = 10;
+    home.generateEmails();
+    home.filterEmailsMap();
+    expect(home.expectedCount).not.toBeNull();
+    expect(home.filteredEmailsMap.size).toEqual(home.expectedCount);
+  }));
+
+  it('should filter emails into a map with proper size in under a second with 100,000 entries', inject([ HomeComponent ], (home: HomeComponent) => {
+    home.randomPercentage = 50;
+    home.emailNumber = 100000;
+    home.generateEmails();
+    home.filterEmailsMap();
+    expect(home.expectedCount).not.toBeNull();
+    expect(home.filteredEmailsMap.size).toEqual(home.expectedCount);
+    expect(home.ticksMap).toBeLessThan(1000);
+  }));
+
+  it('should clear out all of the data when clearAll() called', inject([ HomeComponent ], (home: HomeComponent) => {
+    home.randomPercentage = 50;
+    home.emailNumber = 10;
+    home.generateEmails();
+    home.filterEmailsMap();
+    home.clearAll();
+    expect(home.emails).toEqual([]);
+    expect(home.filteredEmails).toEqual([]);
+    expect(home.filteredEmailsMap).toEqual(new Map());
+  }));
+
 
 });
