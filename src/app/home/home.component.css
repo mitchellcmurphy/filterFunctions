@@ -1,9 +1,72 @@
-.title{
+.card-container{
+    text-align: center;
      -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
        -moz-animation: fadein 2s; /* Firefox < 16 */
         -ms-animation: fadein 2s; /* Internet Explorer */
          -o-animation: fadein 2s; /* Opera < 12.1 */
             animation: fadein 2s;
+}
+
+.title{
+    font: 22px bold;
+    padding-bottom: 20px;
+}
+
+.email-generator-container{
+    /*border: 1px yellow solid;*/
+    width: 50%;
+    min-height: 80px;
+    margin: 0 auto;
+}
+
+input[type=text] {
+    text-align: center;
+    width: 150px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 18px;
+}
+
+.awesome-button{
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto;
+    display: inline-block;
+    border: #edc940 1px solid;
+    cursor: pointer;
+}
+
+.awesome-button:hover{
+    color: #213A72;
+    background-color: #edc940;
+}
+
+.initial-info{
+    margin: 0 auto;
+    width: 200px;
+    text-align: center;
+    padding: 20px;
+}
+
+.emails-to-sort{
+    font-size: 20px;
+    padding: 10px;
+}
+
+.filters{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.email-filter-container{
+    padding: 20px;
+}
+
+.hugeText{
+    font-size: 30px;
 }
 
 @keyframes fadein {

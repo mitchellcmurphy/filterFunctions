@@ -10,9 +10,11 @@ export class HomeComponent {
   public emails: string[];
   public filteredEmails: string[];
   public filteredEmailsMap: any;
-  public emailNumber: number = 5000;
-  public randomPercentage: number = .5;
-  public ticks: number = 0;
+  public emailNumber: number = 100000;
+  public randomPercentage: number = 50;
+  public ticksArray: number = 0;
+  public ticksMap: number = 0;
+  public expectedCount: number = 0;
 
   constructor() {
 
@@ -33,6 +35,7 @@ export class HomeComponent {
       }
     }
     console.log("Emails before shuffle", this.emails);
+    this.expectedCount = percentage > 0 ? this.emails.length * percentage : 1;
     this.shuffleEmails();
   }
 
@@ -48,12 +51,12 @@ export class HomeComponent {
     let start = new Date();
     let length = this.emails.length;
     for(let i = 0; i < length; i++){
-      let email = this.emails.shift();
+      let email = this.emails[i];
       if(this.filteredEmails.indexOf(email) < 0){
         this.filteredEmails.push(email);
       }
     }
-    this.ticks = Math.abs(new Date().getTime() - start.getTime());
+    this.ticksArray = Math.abs(new Date().getTime() - start.getTime());
     console.log("Emails", this.emails.length);
     console.log("Filtered", this.filteredEmails.length);
     console.log("Contents:", this.filteredEmails);
@@ -63,12 +66,12 @@ export class HomeComponent {
     let start = new Date();
     let length = this.emails.length;
     for(let i = 0; i < length; i++){
-      let email = this.emails.shift();
+      let email = this.emails[i];
       if(!(email in this.filteredEmailsMap)){
         this.filteredEmailsMap.set(email, email);
       }
     }
-    this.ticks = Math.abs(new Date().getTime() - start.getTime());
+    this.ticksMap = Math.abs(new Date().getTime() - start.getTime());
     console.log("Emails", this.emails.length);
     console.log("Filtered", this.filteredEmailsMap.size);
     console.log("Contents:", this.filteredEmailsMap);

@@ -47,6 +47,7 @@ describe('Home', () => {
   // }));
 
   it('should have default data', inject([ HomeComponent ], (home: HomeComponent) => {
+    home.ngOnInit();
     expect(home.emails).toEqual([]);
     expect(home.filteredEmails).toEqual([]);
   }));

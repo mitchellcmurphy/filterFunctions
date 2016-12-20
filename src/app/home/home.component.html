@@ -1,21 +1,49 @@
 <div class="card-container">
   <div class='title'>
-    Let's Play FILTER THOSE EMAILS!
+    FILTER SOME DANG EMAILS
   </div>
   <div class="email-generator-container">
-    Enter number of emails to generate: <input type="text" [(ngModel)]="emailNumber"><br>
-    How random do you want it (in %)?: <input type="text" [(ngModel)]="randomPercentage"><br>
-    <button id='email-generator-button' (click)=generateEmails()>Generate Emails</button>
+    Enter number of emails to generate: <br>
+    (Be as mean as you want, but it can only handle 10,000. No More. No Less) <br>
+    <input type="text" [(ngModel)]="emailNumber"><br>
+    How unique do you want the entries (in %)?: <br>
+    (You know, 50% if half are copied and 25% for 4 dupes and 100% for no dupes and -24.7% if you want to break it) <br>
+    <input type="text" [(ngModel)]="randomPercentage">%<br>
+    <div class='awesome-button' (click)=generateEmails()>Generate Emails</div>
   </div>
   <div class="initial-info">
-    <span>Emails to sort:{{emails.length}}</span>
+    <span id="emails-to-sort">Emails to sort: {{emails.length}}</span><br>
+    <span *ngIf="emails.length > 0 && emails.length < 1000">That's not enough, it probably won't work out of spite</span>
+    <span *ngIf="emails.length >= 1000 && emails.length < 5000">Getting better, but I'm pretty sure that number breaks it</span>
+    <span *ngIf="emails.length >= 5000 && emails.length < 10000">Yeah we can test with this number, but only if you hate puppies. You don't hate puppies do you?</span>
+    <span *ngIf="emails.length >= 10000 && emails.length < 50000">Wow, that's obviously too much. Probably won't work</span>
+    <span *ngIf="emails.length >= 50000">No way. This will break it for sure...Do it.</span>
   </div>
-  <div class="email-filter-container">
-    <button class='email-filter-button' (click)=filterEmailsArray()>Filter Emails Array</button><br>
-    <span>Sorted emails (Array):{{filteredEmails.length}}</span><br>
-    <button class='email-filter-button' (click)=filterEmailsMap()>Filter Emails Map</button>
-    <span>Sorted emails (Map):{{filteredEmailsMap.size}}</span><br>
-    <span>Total time this whole thing took: {{ticks}}</span>
+  <div class="filters">
+    <!--<div class="email-filter-container">
+      <div class='awesome-button' (click)=filterEmailsArray()>Filter Emails Array</div><br>
+      <span>Sorted emails (Array):{{filteredEmails.length}}</span><br>
+      <span>Total time this whole thing took: {{ticksArray}}ms</span>
+    </div>-->
+    <div class="email-filter-container">
+      <div class='awesome-button' (click)=filterEmailsMap()>Filter Emails Into A Map</div><br>
+      <span>Sorted emails count: <br>
+      Should be: {{expectedCount}} <br>
+      Actually: {{filteredEmailsMap.size}}</span><br>
+      <span *ngIf="filteredEmailsMap.size > 0 && expectedCount == filteredEmailsMap.size">Holy cow! It worked! It probably still didn't work</span>
+      <span *ngIf="filteredEmailsMap.size > 0 && expectedCount !== filteredEmailsMap.size">Great, now I'm a failure and I can't spell Colonel</span>
+      <br>
+      <span>Total time this whole mess took to sort: {{ticksMap}}ms</span><br>
+      <span *ngIf="ticksMap > 60000">You're still here? It failed like an hour ago!</span>
+      <span *ngIf="ticksMap <= 60000 && ticksMap >= 30000">This probably isn't going to go over well with anyone</span>
+      <span *ngIf="ticksMap < 30000 && ticksMap >= 10000">That's too long, any longer and I bet you would throw your computer</span>
+      <span *ngIf="ticksMap < 10000 && ticksMap >= 5000">Close but it's still a colosal failure</span>
+      <span *ngIf="ticksMap < 5000 && ticksMap > 1000">Try a little harder, and also stop mumbling swear words to yourself</span>
+      <span *ngIf="ticksMap == 1000">Hot dog! Right on the money!</span>
+      <span *ngIf="ticksMap < 1000 && ticksMap >= 500">Less than a second, what a world!</span>
+      <span *ngIf="ticksMap < 500 && ticksMap >= 100">If only I could cook this fast!</span>
+      <span *ngIf="ticksMap < 100 && ticksMap > 0">Ok that's too fast. This thing is obviously cheating</span>
+    </div>
   </div>
-  <button class='clear-button' (click)=clearAll()>Clear all this junk</button>
+  <div class='awesome-button' (click)=clearAll()>Clear all this junk</div>
 </div>
