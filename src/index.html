@@ -28,7 +28,7 @@
                 font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
                 position: absolute;
                 top: 40%;
-                left: 44%;">FILTER FUNCTION</span>
+                left: 44%;">FILTER FUNCTION<br>By Mitchell C Murphy</span>
   </app>
 
   <!-- Google Analytics: change UA-71073175-1 to be your site's ID -->
@@ -41,6 +41,20 @@
     ga('create', 'UA-71073175-1', 'auto');
     ga('send', 'pageview');
   </script>
+
+
+<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAN6Lx7Ixw2ilIInByNT0qUj_k13HvYfkY",
+    authDomain: "filterfunction-c78a3.firebaseapp.com",
+    databaseURL: "https://filterfunction-c78a3.firebaseio.com",
+    storageBucket: "filterfunction-c78a3.appspot.com",
+    messagingSenderId: "934399917666"
+  };
+  firebase.initializeApp(config);
+</script>
 
   <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
   <!-- Webpack Dev Server reload -->
