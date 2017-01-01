@@ -367,6 +367,7 @@ var HomeComponent = (function () {
         this.emails = [];
         this.filteredEmails = [];
         this.filteredEmailsMap = new Map();
+        this.filteredResult = [];
     };
     //Generates a list of random emails with a unique percentage
     //Inputs:
@@ -380,18 +381,22 @@ var HomeComponent = (function () {
     HomeComponent.prototype.generateEmails = function () {
         //Calculate the percentage
         var percentage = this.randomPercentage / 100;
-        //Create a loop to add entries into this.emails, using a quick calc to limit the loop based on the wanted duplicate percentage
-        for (var i = 0; i < (percentage > 0 ? this.emailNumber * percentage : 1); i++) {
-            //Create a new email
+        //Calculate the number of unique values to create
+        var uniques = percentage > 0 ? Math.round(this.emailNumber * percentage) : 1;
+        //Calculate the number of dupes to make
+        var dupes = this.emailNumber - uniques;
+        //Create a loop to add entries into this.emails
+        for (var i = 0; i < uniques; i++) {
+            //Create a new email and push it
             var newEmail = angular2_uuid_1.UUID.UUID() + '@email.com';
-            //Calculate and add that email a certain number of times based on user input
-            for (var j = 0; j < (percentage > 0 ? 1 / percentage : this.emailNumber); j++) {
-                this.emails.push(newEmail);
-            }
+            this.emails.push(newEmail);
         }
-        console.log("Emails before shuffle", this.emails);
+        for (var j = 0; j < dupes; j++) {
+            var dupe = this.emails[Math.floor((Math.random() * this.emails.length))];
+            this.emails.push(dupe);
+        }
         //Calculate the expected count of unique emails
-        this.expectedCount = percentage > 0 ? this.emails.length * percentage : 1;
+        this.expectedCount = percentage > 0 ? Math.round(this.emailNumber * percentage) : 1;
         //Shuffle the list so the duplicates are not close to each other
         this.shuffleEmails();
     };
@@ -408,7 +413,7 @@ var HomeComponent = (function () {
             //Swap the two entires
             _a = [this.emails[j], this.emails[i - 1]], this.emails[i - 1] = _a[0], this.emails[j] = _a[1];
         }
-        console.log(this.emails.length);
+        console.log("Emails after shuffle, before sort", this.emails);
         var _a;
     };
     //THIS IS AN OLD FUNCTION THAT DIDN'T PERFORM AS WELL AS NEEDED, LEAVING TO SHOW THOUGHT PROCESS AND PROGRESSION
@@ -444,13 +449,15 @@ var HomeComponent = (function () {
             var email = this.emails[i];
             if (!(email in this.filteredEmailsMap)) {
                 this.filteredEmailsMap.set(email, email);
+                this.filteredResult.push(email);
             }
         }
         //Calculate how long it took to process the filter
         this.ticksMap = Math.abs(new Date().getTime() - start.getTime());
-        console.log("Emails", this.emails.length);
-        console.log("Filtered", this.filteredEmailsMap.size);
-        console.log("Contents:", this.filteredEmailsMap);
+        // console.log("Emails", this.emails.length);
+        // console.log("Filtered", this.filteredEmailsMap.size);
+        // console.log("Contents:", this.filteredEmailsMap);
+        console.log("Results", this.filteredResult);
     };
     //Clears all data used to create and filter data
     //Inputs:
