@@ -10,6 +10,7 @@ export class HomeComponent {
   public emails: string[];
   public filteredEmails: string[];
   public filteredEmailsMap: any;
+  public filteredResult: string[];
   public emailNumber: number = 100000;
   public randomPercentage: number = 50;
   public ticksArray: number = 0;
@@ -24,6 +25,7 @@ export class HomeComponent {
     this.emails = [];
     this.filteredEmails = [];
     this.filteredEmailsMap = new Map();
+    this.filteredResult = [];
   }
 
   //Generates a list of random emails with a unique percentage
@@ -38,18 +40,26 @@ export class HomeComponent {
   generateEmails(){
     //Calculate the percentage
     let percentage = this.randomPercentage / 100;
-    //Create a loop to add entries into this.emails, using a quick calc to limit the loop based on the wanted duplicate percentage
-    for(let i = 0; i < (percentage > 0 ? this.emailNumber * percentage : 1); i++){
-      //Create a new email
+    //Calculate the number of unique values to create
+    let uniques = percentage > 0 ? Math.round(this.emailNumber * percentage) : 1;
+    //Calculate the number of dupes to make
+    let dupes = this.emailNumber - uniques;
+    //Create a loop to add entries into this.emails
+    for(let i = 0; i < uniques; i++){
+      //Create a new email and push it
       let newEmail = UUID.UUID() + '@email.com';
+      this.emails.push(newEmail);
       //Calculate and add that email a certain number of times based on user input
-      for(let j = 0; j < (percentage > 0 ? 1 / percentage : this.emailNumber); j++){
-        this.emails.push(newEmail);
-      }
+      // for(let j = 0; j < (percentage > 0 ? 1 / percentage : this.emailNumber); j++){
+      //   this.emails.push(newEmail);
+      // }
     }
-    console.log("Emails before shuffle", this.emails);
+    for(let j = 0; j < dupes; j++){
+      let dupe = this.emails[Math.floor((Math.random() * this.emails.length))];
+      this.emails.push(dupe);
+    }
     //Calculate the expected count of unique emails
-    this.expectedCount = percentage > 0 ? this.emails.length * percentage : 1;
+    this.expectedCount = percentage > 0 ? Math.round(this.emailNumber * percentage) : 1;
     //Shuffle the list so the duplicates are not close to each other
     this.shuffleEmails();
   }
@@ -67,7 +77,7 @@ export class HomeComponent {
         //Swap the two entires
         [this.emails[i - 1], this.emails[j]] = [this.emails[j], this.emails[i - 1]];
     }
-    console.log(this.emails.length);
+    console.log("Emails after shuffle, before sort", this.emails);
   }
 
   //THIS IS AN OLD FUNCTION THAT DIDN'T PERFORM AS WELL AS NEEDED, LEAVING TO SHOW THOUGHT PROCESS AND PROGRESSION
@@ -104,13 +114,15 @@ export class HomeComponent {
       let email = this.emails[i];
       if(!(email in this.filteredEmailsMap)){
         this.filteredEmailsMap.set(email, email);
+        this.filteredResult.push(email);
       }
     }
     //Calculate how long it took to process the filter
     this.ticksMap = Math.abs(new Date().getTime() - start.getTime());
-    console.log("Emails", this.emails.length);
-    console.log("Filtered", this.filteredEmailsMap.size);
-    console.log("Contents:", this.filteredEmailsMap);
+    // console.log("Emails", this.emails.length);
+    // console.log("Filtered", this.filteredEmailsMap.size);
+    // console.log("Contents:", this.filteredEmailsMap);
+    console.log("Results", this.filteredResult);
   }
 
   //Clears all data used to create and filter data
